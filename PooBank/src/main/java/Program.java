@@ -12,7 +12,6 @@ public class Program {
     public static void main(String[] args) {
         BankServices myBank = null;
         RecorderAccount recorder = new RecorderAccount();
-        //JOptionPane.showMessageDialog(null, "A tarefa falhou com exito");
         try {
             ArrayList<Account> accountsRecovered;
             accountsRecovered = recorder.readAccount();
