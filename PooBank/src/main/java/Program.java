@@ -139,11 +139,55 @@ public class Program {
                     }
                 }
             }
-            if(option.equals("6")){
-
+            if (option.equals("6")) {
+                boolean ValidValue = true;
+                int number = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o numero da conta"));
+                String holder = JOptionPane.showInputDialog(null, "Digite o nome do titular da conta");
+                while (ValidValue) {
+                    try {
+                        double value = Double.parseDouble(
+                                JOptionPane.showInputDialog(null, "Digite o valor a ser depositado"));
+                        try {
+                            myBank.depositInAccount(number, holder, value);
+                            JOptionPane.showMessageDialog(null, "Seu saldo atual é de: "
+                                    + myBank.consultAccountBalance(number, holder));
+                        } catch (AccountDoesNotExistException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage());
+                        }
+                        ValidValue = false;
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null,
+                                "Erro! Digite apenas números aqui. Tipo de Erro: "
+                                        + e.getMessage());
+                        continue;
+                    }
+                }
             }
-            if(option.equals("7")){
-
+            if (option.equals("7")) {
+                boolean ValidValue = true;
+                int numberAcc1 = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o nomero da conta que dejesa transferir: "));
+                String holder1 = JOptionPane.showInputDialog(null, "Digite o nome do titular da Conta: ");
+                int numberAcc2 = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o nomero da conta que dejesa receber: "));
+                String holder2 = JOptionPane.showInputDialog(null, "Digite o nome do titular da Conta: ");
+                while (ValidValue) {
+                    try {
+                        double Value = Double.parseDouble(
+                                JOptionPane.showInputDialog(null,
+                                        "Digite o valor a ser Transferido"));
+                        try {
+                            myBank.transfer(numberAcc1, holder1, numberAcc2, holder2, Value);
+                        } catch (AccountDoesNotExistException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage());
+                        }
+                        JOptionPane.showMessageDialog(null, "Transfêrencia realizada com sucesso!");
+                        ValidValue = false;
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null,
+                                "Erro! Digite apenas números aqui. Tipo de Erro: "
+                                        + e.getMessage());
+                        continue;
+                    }
+                }
             }
             if(option.equals("8")){
                 try {
