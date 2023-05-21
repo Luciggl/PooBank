@@ -78,7 +78,7 @@ public class Program {
                     double loanLimit = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite a taxa de credito!"));
 
                     try {
-                        myBank.openSavingAccount(number, holder, balance, loanLimit);
+                        myBank.openBusinessAccount(number, holder, balance, loanLimit);
                         JOptionPane.showMessageDialog(null, "Conta criada com sucesso!");
                     } catch (AccountAlreadyExistsException e) {
                         throw new RuntimeException(e);
