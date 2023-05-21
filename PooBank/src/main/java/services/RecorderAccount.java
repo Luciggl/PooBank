@@ -42,7 +42,7 @@ public class RecorderAccount {
             do {
                 readLines = reader.readLine();
                 if(readLines != null){
-                    String [] words = readLines.split(";");
+                    String [] words = readLines.split(",");
                     Account c = new Account(parseInt(words[0]), words[1], Double.parseDouble(words[2]));
                     accountsRead.add(c);
                 }
