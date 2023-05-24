@@ -60,10 +60,6 @@ public class BankServices implements BankRepository {
 
     @Override
     public ArrayList<Account> searchAccount(int number) throws AccountDoesNotExistException {
-        return null;
-    }
-
-    public ArrayList<Account> searchAccount(String number) throws AccountDoesNotExistException {
         ArrayList <Account> searchAccounts = new ArrayList<>();
         for(Account c: this.accounts){
             if(Objects.equals(c.getNumber(), number)){
@@ -73,7 +69,7 @@ public class BankServices implements BankRepository {
         }
         throw new AccountDoesNotExistException("Esta conta é inválida, tente novamente com uma conta válida!");
     }
-
+    
     @Override
     public ArrayList<Account> getAccount() {
         return this.accounts;
