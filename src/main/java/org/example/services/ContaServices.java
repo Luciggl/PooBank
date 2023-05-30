@@ -31,15 +31,14 @@ public class ContaServices implements ContaRepository {
     }
 
     @Override
-    public void delete(String KeyCpf) throws ContaNaoExisteException {
-        Conta conta = findByCpf(KeyCpf);
+    public void delete(String keyCpf) throws ContaNaoExisteException {
+        Conta conta = listContaControll.get(keyCpf);
         if (conta == null) {
-            throw new ContaNaoExisteException("A conta com o CPF " + KeyCpf + " não existe.");
+            throw new ContaNaoExisteException("Esta conta não existe, tente novamente com uma conta válida!");
         }
-        listContaControll.remove(KeyCpf);
-        ContaList.remove(conta);
-    }
 
+        listContaControll.remove(keyCpf);
+    }
     @Override
     public ArrayList<Conta> pesquisarConta(String cpf) throws ContaNaoExisteException {
         ArrayList <Conta> contaCliente = new ArrayList<>();
