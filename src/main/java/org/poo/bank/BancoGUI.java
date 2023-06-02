@@ -1,6 +1,9 @@
 package org.poo.bank;
 
 import org.poo.bank.entities.Conta;
+import org.poo.bank.exception.ContaJaExisteException;
+import org.poo.bank.exception.ContaNaoExisteException;
+import org.poo.bank.exception.SaldoNaoDisponivelException;
 import org.poo.bank.services.BancoServices;
 
 import javax.swing.*;
@@ -10,447 +13,365 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class BancoGUI extends JFrame {
-    private JPanel panelButtons;
-    private JButton buttonAbrirConta;
-    private JButton buttonRemoverConta;
-    private JButton buttonConsultarSaldo;
-    private JButton buttonSacar;
-    private JButton buttonDepositar;
-    private JButton buttonTransferir;
-    private JButton buttonPesquisarContas;
-    private JButton buttonAlterarNome;
-
-    private JPanel panelAbrirConta;
-    private JLabel labelNome;
-    private JTextField textFieldNome;
-    private JLabel labelCPF;
-    private JTextField textFieldCPF;
-    private JLabel labelNumConta;
-    private JTextField textFieldNumConta;
-    private JLabel labelNumAgencia;
-    private JTextField textFieldNumAgencia;
-    private JLabel labelSaldo;
-    private JTextField textFieldSaldo;
-    private JButton buttonSalvar;
-
-    private JPanel panelRemoverConta;
-    private JLabel labelNumContaRemover;
-    private JTextField textFieldNumContaRemover;
-    private JLabel labelNumAgenciaRemover;
-    private JTextField textFieldNumAgenciaRemover;
-    private JButton buttonRemover;
-
-    private JPanel panelConsultarSaldo;
-    private JLabel labelNumContaSaldo;
-    private JTextField textFieldNumContaSaldo;
-    private JLabel labelNumAgenciaSaldo;
-    private JTextField textFieldNumAgenciaSaldo;
-    private JButton buttonConsultar;
-
-    private JPanel panelSacar;
-    private JLabel labelNumContaSacar;
-    private JTextField textFieldNumContaSacar;
-    private JLabel labelNumAgenciaSacar;
-    private JTextField textFieldNumAgenciaSacar;
-    private JLabel labelValorSacar;
-    private JTextField textFieldValorSacar;
-    private JButton buttonSacarValor;
-
-    private JPanel panelDepositar;
-    private JLabel labelNumContaDepositar;
-    private JTextField textFieldNumContaDepositar;
-    private JLabel labelNumAgenciaDepositar;
-    private JTextField textFieldNumAgenciaDepositar;
-    private JLabel labelValorDepositar;
-    private JTextField textFieldValorDepositar;
-    private JButton buttonDepositarValor;
-
-    private JPanel panelTransferir;
-    private JLabel labelNumContaOrigem;
-    private JTextField textFieldNumContaOrigem;
-    private JLabel labelNumAgenciaOrigem;
-    private JTextField textFieldNumAgenciaOrigem;
-    private JLabel labelNumContaDestino;
-    private JTextField textFieldNumContaDestino;
-    private JLabel labelNumAgenciaDestino;
-    private JTextField textFieldNumAgenciaDestino;
-    private JLabel labelValorTransferir;
-    private JTextField textFieldValorTransferir;
-    private JButton buttonTransferirValor;
-
-    private JPanel panelPesquisarContas;
-    private JLabel labelCPFPesquisarContas;
-    private JTextField textFieldCPFPesquisarContas;
-    private JButton buttonPesquisarConta;
-
-    private JPanel panelAlterarNome;
-    private JLabel labelCPFAutenticacao;
-    private JTextField textFieldCPFAutenticacao;
-    private JLabel labelNomeNovo;
-    private JTextField textFieldNomeNovo;
-    private JButton ButtonAlterarNome;
-
     private BancoServices bancoServices;
+    private JTextField numContaOField;
+    private JTextField numAgOField;
+    private JTextField numContaDField;
+    private JTextField numAgDField;
+    private JTextField valorField;
+    private JTextField nomeField;
+    private JTextField cpfField;
+    private JTextField numCField;
+    private JTextField numAgField;
+    private JTextField saldoField;
+    private JTextField numCRemoverField;
+    private JTextField numAgRemoverField;
+    private JTextField numCConsultaField;
+    private JTextField numAgConsultaField;
+    private JTextField numCSaqueField;
+    private JTextField numAgSaqueField;
+    private JTextField valorSaqueField;
+    private JTextField numCDepositoField;
+    private JTextField numAgDepositoField;
+    private JTextField valorDepositoField;
+    private JTextField cpfPesquisaField;
+    private JTextField novoNomeField;
 
     public BancoGUI(BancoServices bancoServices) {
         this.bancoServices = bancoServices;
-
-        setTitle("Banco GUI");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        panelButtons = new JPanel();
-        panelButtons.setLayout(new GridLayout(4, 2));
-
-        buttonAbrirConta = new JButton("Abrir Conta");
-        buttonAbrirConta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPanel(panelAbrirConta);
-            }
-        });
-
-        buttonRemoverConta = new JButton("Remover Conta");
-        buttonRemoverConta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPanel(panelRemoverConta);
-            }
-        });
-
-        buttonConsultarSaldo = new JButton("Consultar Saldo");
-        buttonConsultarSaldo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPanel(panelConsultarSaldo);
-            }
-        });
-
-        buttonSacar = new JButton("Sacar");
-        buttonSacar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPanel(panelSacar);
-            }
-        });
-
-        buttonDepositar = new JButton("Depositar");
-        buttonDepositar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPanel(panelDepositar);
-            }
-        });
-
-        buttonTransferir = new JButton("Transferir");
-        buttonTransferir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPanel(panelTransferir);
-            }
-        });
-
-        buttonPesquisarContas = new JButton("Pesquisar Contas");
-        buttonPesquisarContas.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPanel(panelPesquisarContas);
-            }
-        });
-
-        buttonAlterarNome = new JButton("Alterar Nome");
-        buttonAlterarNome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPanel(panelAlterarNome);
-            }
-        });
-
-        panelButtons.add(buttonAbrirConta);
-        panelButtons.add(buttonRemoverConta);
-        panelButtons.add(buttonConsultarSaldo);
-        panelButtons.add(buttonSacar);
-        panelButtons.add(buttonDepositar);
-        panelButtons.add(buttonTransferir);
-        panelButtons.add(buttonPesquisarContas);
-        panelButtons.add(buttonAlterarNome);
-
-        panelAbrirConta = new JPanel();
-        panelAbrirConta.setLayout(new GridLayout(6, 2));
-
-        labelNome = new JLabel("Nome:");
-        textFieldNome = new JTextField();
-        labelCPF = new JLabel("CPF:");
-        textFieldCPF = new JTextField();
-        labelNumConta = new JLabel("Número da Conta:");
-        textFieldNumConta = new JTextField();
-        labelNumAgencia = new JLabel("Número da Agência:");
-        textFieldNumAgencia = new JTextField();
-        labelSaldo = new JLabel("Saldo Inicial:");
-        textFieldSaldo = new JTextField();
-        buttonSalvar = new JButton("Salvar");
-        buttonSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para abrir uma nova conta com os dados fornecidos
-                String nome = textFieldNome.getText();
-                String cpf = textFieldCPF.getText();
-                String numConta = textFieldNumConta.getText();
-                String numAgencia = textFieldNumAgencia.getText();
-                double saldo = Double.parseDouble(textFieldSaldo.getText());
-                // Lógica para abrir uma nova conta
-                JOptionPane.showMessageDialog(null, "Conta aberta com sucesso!");
-            }
-        });
-
-        panelAbrirConta.add(labelNome);
-        panelAbrirConta.add(textFieldNome);
-        panelAbrirConta.add(labelCPF);
-        panelAbrirConta.add(textFieldCPF);
-        panelAbrirConta.add(labelNumConta);
-        panelAbrirConta.add(textFieldNumConta);
-        panelAbrirConta.add(labelNumAgencia);
-        panelAbrirConta.add(textFieldNumAgencia);
-        panelAbrirConta.add(labelSaldo);
-        panelAbrirConta.add(textFieldSaldo);
-        panelAbrirConta.add(new JLabel());
-        panelAbrirConta.add(buttonSalvar);
-
-        panelRemoverConta = new JPanel();
-        panelRemoverConta.setLayout(new GridLayout(3, 2));
-
-        labelNumContaRemover = new JLabel("Número da Conta:");
-        textFieldNumContaRemover = new JTextField();
-        labelNumAgenciaRemover = new JLabel("Número da Agência:");
-        textFieldNumAgenciaRemover = new JTextField();
-        buttonRemover = new JButton("Remover");
-        buttonRemover.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para remover a conta com os dados fornecidos
-                String numConta = textFieldNumContaRemover.getText();
-                String numAgencia = textFieldNumAgenciaRemover.getText();
-                // Lógica para remover a conta
-                JOptionPane.showMessageDialog(null, "Conta removida com sucesso!");
-            }
-        });
-
-        panelRemoverConta.add(labelNumContaRemover);
-        panelRemoverConta.add(textFieldNumContaRemover);
-        panelRemoverConta.add(labelNumAgenciaRemover);
-        panelRemoverConta.add(textFieldNumAgenciaRemover);
-        panelRemoverConta.add(new JLabel());
-        panelRemoverConta.add(buttonRemover);
-
-        panelConsultarSaldo = new JPanel();
-        panelConsultarSaldo.setLayout(new GridLayout(3, 2));
-
-        labelNumContaSaldo = new JLabel("Número da Conta:");
-        textFieldNumContaSaldo = new JTextField();
-        labelNumAgenciaSaldo = new JLabel("Número da Agência:");
-        textFieldNumAgenciaSaldo = new JTextField();
-        buttonConsultar = new JButton("Consultar");
-        buttonConsultar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para consultar o saldo da conta com os dados fornecidos
-                String numConta = textFieldNumContaSaldo.getText();
-                String numAgencia = textFieldNumAgenciaSaldo.getText();
-                // Lógica para consultar o saldo da conta
-                double saldo = 0; // Coloque o valor do saldo consultado
-                JOptionPane.showMessageDialog(null, "Saldo da conta: " + saldo);
-            }
-        });
-
-        panelConsultarSaldo.add(labelNumContaSaldo);
-        panelConsultarSaldo.add(textFieldNumContaSaldo);
-        panelConsultarSaldo.add(labelNumAgenciaSaldo);
-        panelConsultarSaldo.add(textFieldNumAgenciaSaldo);
-        panelConsultarSaldo.add(new JLabel());
-        panelConsultarSaldo.add(buttonConsultar);
-
-        panelSacar = new JPanel();
-        panelSacar.setLayout(new GridLayout(4, 2));
-
-        labelNumContaSacar = new JLabel("Número da Conta:");
-        textFieldNumContaSacar = new JTextField();
-        labelNumAgenciaSacar = new JLabel("Número da Agência:");
-        textFieldNumAgenciaSacar = new JTextField();
-        labelValorSacar = new JLabel("Valor do Saque:");
-        textFieldValorSacar = new JTextField();
-        buttonSacarValor = new JButton("Sacar");
-        buttonSacarValor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para sacar o valor da conta com os dados fornecidos
-                String numConta = textFieldNumContaSacar.getText();
-                String numAgencia = textFieldNumAgenciaSacar.getText();
-                double valor = Double.parseDouble(textFieldValorSacar.getText());
-                // Lógica para sacar o valor da conta
-                JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!");
-            }
-        });
-
-        panelSacar.add(labelNumContaSacar);
-        panelSacar.add(textFieldNumContaSacar);
-        panelSacar.add(labelNumAgenciaSacar);
-        panelSacar.add(textFieldNumAgenciaSacar);
-        panelSacar.add(labelValorSacar);
-        panelSacar.add(textFieldValorSacar);
-        panelSacar.add(new JLabel());
-        panelSacar.add(buttonSacarValor);
-
-        panelDepositar = new JPanel();
-        panelDepositar.setLayout(new GridLayout(4, 2));
-
-        labelNumContaDepositar = new JLabel("Número da Conta:");
-        textFieldNumContaDepositar = new JTextField();
-        labelNumAgenciaDepositar = new JLabel("Número da Agência:");
-        textFieldNumAgenciaDepositar = new JTextField();
-        labelValorDepositar = new JLabel("Valor do Depósito:");
-        textFieldValorDepositar = new JTextField();
-        buttonDepositarValor = new JButton("Depositar");
-        buttonDepositarValor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para depositar o valor na conta com os dados fornecidos
-                String numConta = textFieldNumContaDepositar.getText();
-                String numAgencia = textFieldNumAgenciaDepositar.getText();
-                double valor = Double.parseDouble(textFieldValorDepositar.getText());
-                // Lógica para depositar o valor na conta
-                JOptionPane.showMessageDialog(null, "Depósito realizado com sucesso!");
-            }
-        });
-
-        panelDepositar.add(labelNumContaDepositar);
-        panelDepositar.add(textFieldNumContaDepositar);
-        panelDepositar.add(labelNumAgenciaDepositar);
-        panelDepositar.add(textFieldNumAgenciaDepositar);
-        panelDepositar.add(labelValorDepositar);
-        panelDepositar.add(textFieldValorDepositar);
-        panelDepositar.add(new JLabel());
-        panelDepositar.add(buttonDepositarValor);
-
-        panelTransferir = new JPanel();
-        panelTransferir.setLayout(new GridLayout(6, 2));
-
-        labelNumContaOrigem = new JLabel("Conta de Origem:");
-        textFieldNumContaOrigem = new JTextField();
-        labelNumAgenciaOrigem = new JLabel("Agência de Origem:");
-        textFieldNumAgenciaOrigem = new JTextField();
-        labelNumContaDestino = new JLabel("Conta de Destino:");
-        textFieldNumContaDestino = new JTextField();
-        labelNumAgenciaDestino = new JLabel("Agência de Destino:");
-        textFieldNumAgenciaDestino = new JTextField();
-        labelValorTransferir = new JLabel("Valor da Transferência:");
-        textFieldValorTransferir = new JTextField();
-        buttonTransferirValor = new JButton("Transferir");
-        buttonTransferirValor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para transferir o valor entre as contas com os dados fornecidos
-                String numContaOrigem = textFieldNumContaOrigem.getText();
-                String numAgenciaOrigem = textFieldNumAgenciaOrigem.getText();
-                String numContaDestino = textFieldNumContaDestino.getText();
-                String numAgenciaDestino = textFieldNumAgenciaDestino.getText();
-                double valor = Double.parseDouble(textFieldValorTransferir.getText());
-                // Lógica para transferir o valor entre as contas
-                JOptionPane.showMessageDialog(null, "Transferência realizada com sucesso!");
-            }
-        });
-
-        panelTransferir.add(labelNumContaOrigem);
-        panelTransferir.add(textFieldNumContaOrigem);
-        panelTransferir.add(labelNumAgenciaOrigem);
-        panelTransferir.add(textFieldNumAgenciaOrigem);
-        panelTransferir.add(labelNumContaDestino);
-        panelTransferir.add(textFieldNumContaDestino);
-        panelTransferir.add(labelNumAgenciaDestino);
-        panelTransferir.add(textFieldNumAgenciaDestino);
-        panelTransferir.add(labelValorTransferir);
-        panelTransferir.add(textFieldValorTransferir);
-        panelTransferir.add(new JLabel());
-        panelTransferir.add(buttonTransferirValor);
-
-        panelPesquisarContas = new JPanel();
-        panelPesquisarContas.setLayout(new GridLayout(2, 2));
-
-        labelCPFPesquisarContas = new JLabel("CPF:");
-        textFieldCPFPesquisarContas = new JTextField();
-        buttonPesquisarContas = new JButton("Pesquisar");
-        buttonPesquisarContas.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para pesquisar as contas associadas a um CPF
-                String cpf = textFieldCPFPesquisarContas.getText();
-                // Lógica para pesquisar as contas associadas ao CPF
-                // e exibir o resultado
-                JOptionPane.showMessageDialog(null, "Contas encontradas: \nConta 1\nConta 2");
-            }
-        });
-
-        panelPesquisarContas.add(labelCPFPesquisarContas);
-        panelPesquisarContas.add(textFieldCPFPesquisarContas);
-        panelPesquisarContas.add(new JLabel());
-        panelPesquisarContas.add(buttonPesquisarContas);
-
-        panelAlterarNome = new JPanel();
-        panelAlterarNome.setLayout(new GridLayout(3, 2));
-
-        labelCPFAutenticacao = new JLabel("CPF para Autenticação:");
-        textFieldCPFAutenticacao = new JTextField();
-        labelNomeNovo = new JLabel("Novo Nome:");
-        textFieldNomeNovo = new JTextField();
-        buttonAlterarNome = new JButton("Alterar Nome");
-        buttonAlterarNome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Lógica para alterar o nome da conta com os dados fornecidos
-                String cpf = textFieldCPFAutenticacao.getText();
-                String novoNome = textFieldNomeNovo.getText();
-                // Lógica para alterar o nome da conta
-                JOptionPane.showMessageDialog(null, "Nome alterado com sucesso!");
-            }
-        });
-
-        panelAlterarNome.add(labelCPFAutenticacao);
-        panelAlterarNome.add(textFieldCPFAutenticacao);
-        panelAlterarNome.add(labelNomeNovo);
-        panelAlterarNome.add(textFieldNomeNovo);
-        panelAlterarNome.add(new JLabel());
-        panelAlterarNome.add(buttonAlterarNome);
-
-        add(panelButtons, BorderLayout.NORTH);
-        add(panelAbrirConta, BorderLayout.CENTER);
-        add(panelRemoverConta, BorderLayout.CENTER);
-        add(panelConsultarSaldo, BorderLayout.CENTER);
-        add(panelSacar, BorderLayout.CENTER);
-        add(panelDepositar, BorderLayout.CENTER);
-        add(panelTransferir, BorderLayout.CENTER);
-        add(panelPesquisarContas, BorderLayout.CENTER);
-        add(panelAlterarNome, BorderLayout.CENTER);
-
-        pack();
-        setVisible(true);
+        initialize();
     }
 
-    private void showPanel(JPanel panel) {
-        panelButtons.setVisible(false);
-        panelAbrirConta.setVisible(false);
-        panelRemoverConta.setVisible(false);
-        panelConsultarSaldo.setVisible(false);
-        panelSacar.setVisible(false);
-        panelDepositar.setVisible(false);
-        panelTransferir.setVisible(false);
-        panelPesquisarContas.setVisible(false);
-        panelAlterarNome.setVisible(false);
+    private void initialize() {
+        setTitle("Banco GUI");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setLocationRelativeTo(null);
 
-        panel.setVisible(true);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        setContentPane(mainPanel);
+
+        JPanel transferPanel = createTransferPanel();
+        JPanel abrirContaPanel = createAbrirContaPanel();
+        JPanel removerContaPanel = createRemoverContaPanel();
+        JPanel consultarSaldoPanel = createConsultarSaldoPanel();
+        JPanel sacarPanel = createSacarPanel();
+        JPanel depositarPanel = createDepositarPanel();
+        JPanel pesquisarContaPanel = createPesquisarContaPanel();
+
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.addTab("Transferir", transferPanel);
+        tabbedPane.addTab("Abrir Conta", abrirContaPanel);
+        tabbedPane.addTab("Remover Conta", removerContaPanel);
+        tabbedPane.addTab("Consultar Saldo", consultarSaldoPanel);
+        tabbedPane.addTab("Sacar", sacarPanel);
+        tabbedPane.addTab("Depositar", depositarPanel);
+        tabbedPane.addTab("Pesquisar Conta", pesquisarContaPanel);
+
+        mainPanel.add(tabbedPane, BorderLayout.CENTER);
+    }
+
+    private JPanel createTransferPanel() {
+        JPanel transferPanel = new JPanel();
+        transferPanel.setLayout(new GridLayout(6, 2));
+
+        JLabel numContaOLabel = new JLabel("Número da Conta Origem:");
+        numContaOField = new JTextField();
+        JLabel numAgOLabel = new JLabel("Número da Agência Origem:");
+        numAgOField = new JTextField();
+        JLabel numContaDLabel = new JLabel("Número da Conta Destino:");
+        numContaDField = new JTextField();
+        JLabel numAgDLabel = new JLabel("Número da Agência Destino:");
+        numAgDField = new JTextField();
+        JLabel valorLabel = new JLabel("Valor:");
+        valorField = new JTextField();
+
+        JButton transferButton = new JButton("Transferir");
+        transferButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String numContaO = numContaOField.getText();
+                String numAgO = numAgOField.getText();
+                String numContaD = numContaDField.getText();
+                String numAgD = numAgDField.getText();
+                double valor = Double.parseDouble(valorField.getText());
+
+                try {
+                    bancoServices.transferir(numContaO, numAgO, numContaD, numAgD, valor);
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Transferência realizada com sucesso!");
+                } catch (ContaNaoExisteException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Uma das contas ou as duas são inválidas");
+                } catch (SaldoNaoDisponivelException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Não foi possível fazer a transferência, pois o saldo da conta Origem é menor que o valor a ser transferido");
+                }
+            }
+        });
+
+        transferPanel.add(numContaOLabel);
+        transferPanel.add(numContaOField);
+        transferPanel.add(numAgOLabel);
+        transferPanel.add(numAgOField);
+        transferPanel.add(numContaDLabel);
+        transferPanel.add(numContaDField);
+        transferPanel.add(numAgDLabel);
+        transferPanel.add(numAgDField);
+        transferPanel.add(valorLabel);
+        transferPanel.add(valorField);
+        transferPanel.add(new JLabel());
+        transferPanel.add(transferButton);
+
+        return transferPanel;
+    }
+
+    private JPanel createAbrirContaPanel() {
+        JPanel abrirContaPanel = new JPanel();
+        abrirContaPanel.setLayout(new GridLayout(6, 2));
+
+        JLabel nomeLabel = new JLabel("Nome:");
+        nomeField = new JTextField();
+        JLabel cpfLabel = new JLabel("CPF:");
+        cpfField = new JTextField();
+        JLabel numCLabel = new JLabel("Número da Conta:");
+        numCField = new JTextField();
+        JLabel numAgLabel = new JLabel("Número da Agência:");
+        numAgField = new JTextField();
+        JLabel saldoLabel = new JLabel("Saldo Inicial:");
+        saldoField = new JTextField();
+
+        JButton abrirContaButton = new JButton("Abrir Conta");
+        abrirContaButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String nome = nomeField.getText();
+                String cpf = cpfField.getText();
+                String numC = numCField.getText();
+                String numAg = numAgField.getText();
+                double saldo = Double.parseDouble(saldoField.getText());
+
+                try {
+                    bancoServices.abrirConta(nome, cpf, numC, numAg, saldo);
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Conta aberta com sucesso!");
+                } catch (ContaJaExisteException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Esta conta já existe no sistema, tente novamente!");
+                }
+            }
+        });
+
+        abrirContaPanel.add(nomeLabel);
+        abrirContaPanel.add(nomeField);
+        abrirContaPanel.add(cpfLabel);
+        abrirContaPanel.add(cpfField);
+        abrirContaPanel.add(numCLabel);
+        abrirContaPanel.add(numCField);
+        abrirContaPanel.add(numAgLabel);
+        abrirContaPanel.add(numAgField);
+        abrirContaPanel.add(saldoLabel);
+        abrirContaPanel.add(saldoField);
+        abrirContaPanel.add(new JLabel());
+        abrirContaPanel.add(abrirContaButton);
+
+        return abrirContaPanel;
+    }
+
+    private JPanel createRemoverContaPanel() {
+        JPanel removerContaPanel = new JPanel();
+        removerContaPanel.setLayout(new GridLayout(3, 2));
+
+        JLabel numCRemoverLabel = new JLabel("Número da Conta:");
+        numCRemoverField = new JTextField();
+        JLabel numAgRemoverLabel = new JLabel("Número da Agência:");
+        numAgRemoverField = new JTextField();
+
+        JButton removerContaButton = new JButton("Remover Conta");
+        removerContaButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String numC = numCRemoverField.getText();
+                String numAg = numAgRemoverField.getText();
+
+                try {
+                    bancoServices.removerConta(numC, numAg);
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Conta removida com sucesso!");
+                } catch (ContaNaoExisteException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Conta inválida! Tente novamente com uma conta válida!");
+                }
+            }
+        });
+
+        removerContaPanel.add(numCRemoverLabel);
+        removerContaPanel.add(numCRemoverField);
+        removerContaPanel.add(numAgRemoverLabel);
+        removerContaPanel.add(numAgRemoverField);
+        removerContaPanel.add(new JLabel());
+        removerContaPanel.add(removerContaButton);
+
+        return removerContaPanel;
+    }
+
+    private JPanel createConsultarSaldoPanel() {
+        JPanel consultarSaldoPanel = new JPanel();
+        consultarSaldoPanel.setLayout(new GridLayout(3, 2));
+
+        JLabel numCConsultaLabel = new JLabel("Número da Conta:");
+        numCConsultaField = new JTextField();
+        JLabel numAgConsultaLabel = new JLabel("Número da Agência:");
+        numAgConsultaField = new JTextField();
+
+        JButton consultarSaldoButton = new JButton("Consultar Saldo");
+        consultarSaldoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String numC = numCConsultaField.getText();
+                String numAg = numAgConsultaField.getText();
+
+                try {
+                    double saldo = bancoServices.consultarSaldoDeConta(numC, numAg);
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Saldo da conta: " + saldo);
+                } catch (ContaNaoExisteException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Não foi possível consultar o saldo da conta! Tente novamente com uma conta válida");
+                }
+            }
+        });
+
+        consultarSaldoPanel.add(numCConsultaLabel);
+        consultarSaldoPanel.add(numCConsultaField);
+        consultarSaldoPanel.add(numAgConsultaLabel);
+        consultarSaldoPanel.add(numAgConsultaField);
+        consultarSaldoPanel.add(new JLabel());
+        consultarSaldoPanel.add(consultarSaldoButton);
+
+        return consultarSaldoPanel;
+    }
+
+    private JPanel createSacarPanel() {
+        JPanel sacarPanel = new JPanel();
+        sacarPanel.setLayout(new GridLayout(4, 2));
+
+        JLabel numCSaqueLabel = new JLabel("Número da Conta:");
+        numCSaqueField = new JTextField();
+        JLabel numAgSaqueLabel = new JLabel("Número da Agência:");
+        numAgSaqueField = new JTextField();
+        JLabel valorSaqueLabel = new JLabel("Valor:");
+        valorSaqueField = new JTextField();
+
+        JButton sacarButton = new JButton("Sacar");
+        sacarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String numC = numCSaqueField.getText();
+                String numAg = numAgSaqueField.getText();
+                double valor = Double.parseDouble(valorSaqueField.getText());
+
+                try {
+                    bancoServices.sacarDeConta(numC, numAg, valor);
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Saque realizado com sucesso!");
+                } catch (ContaNaoExisteException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Essa conta é inválida, tente novamente com uma conta válida!");
+                } catch (SaldoNaoDisponivelException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Não foi possível realizar o Saque! Seu saldo é menor que o valor que deseja sacar");
+                }
+            }
+        });
+
+        sacarPanel.add(numCSaqueLabel);
+        sacarPanel.add(numCSaqueField);
+        sacarPanel.add(numAgSaqueLabel);
+        sacarPanel.add(numAgSaqueField);
+        sacarPanel.add(valorSaqueLabel);
+        sacarPanel.add(valorSaqueField);
+        sacarPanel.add(new JLabel());
+        sacarPanel.add(sacarButton);
+
+        return sacarPanel;
+    }
+
+    private JPanel createDepositarPanel() {
+        JPanel depositarPanel = new JPanel();
+        depositarPanel.setLayout(new GridLayout(4, 2));
+
+        JLabel numCDepositoLabel = new JLabel("Número da Conta:");
+        numCDepositoField = new JTextField();
+        JLabel numAgDepositoLabel = new JLabel("Número da Agência:");
+        numAgDepositoField = new JTextField();
+        JLabel valorDepositoLabel = new JLabel("Valor:");
+        valorDepositoField = new JTextField();
+
+        JButton depositarButton = new JButton("Depositar");
+        depositarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String numC = numCDepositoField.getText();
+                String numAg = numAgDepositoField.getText();
+                double valor = Double.parseDouble(valorDepositoField.getText());
+
+                try {
+                    bancoServices.depositarEmConta(numC, numAg, valor);
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Depósito realizado com sucesso!");
+                } catch (ContaNaoExisteException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Essa conta é inválida, tente novamente com uma conta válida!");
+                }
+            }
+        });
+
+        depositarPanel.add(numCDepositoLabel);
+        depositarPanel.add(numCDepositoField);
+        depositarPanel.add(numAgDepositoLabel);
+        depositarPanel.add(numAgDepositoField);
+        depositarPanel.add(valorDepositoLabel);
+        depositarPanel.add(valorDepositoField);
+        depositarPanel.add(new JLabel());
+        depositarPanel.add(depositarButton);
+
+        return depositarPanel;
+    }
+
+    private JPanel createPesquisarContaPanel() {
+        JPanel pesquisarContaPanel = new JPanel();
+        pesquisarContaPanel.setLayout(new GridLayout(4, 2));
+
+        JLabel cpfPesquisaLabel = new JLabel("CPF:");
+        cpfPesquisaField = new JTextField();
+        JLabel novoNomeLabel = new JLabel("Novo Nome:");
+        novoNomeField = new JTextField();
+
+        JButton pesquisarContaButton = new JButton("Pesquisar Conta");
+        pesquisarContaButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cpf = cpfPesquisaField.getText();
+                try {
+                    String nome = String.valueOf(bancoServices.pesquisarContasDoCliente(cpf));
+                    JOptionPane.showMessageDialog(BancoGUI.this, "O nome associado a esse CPF é: " + nome);
+                } catch (ContaNaoExisteException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Não foi possível encontrar uma conta com esse CPF");
+                }
+            }
+        });
+
+        JButton atualizarNomeButton = new JButton("Atualizar Nome");
+        atualizarNomeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String cpf = cpfPesquisaField.getText();
+                String novoNome = novoNomeField.getText();
+                try {
+                    bancoServices.alterarNome(cpf, novoNome);
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Nome atualizado com sucesso!");
+                } catch (ContaNaoExisteException ex) {
+                    JOptionPane.showMessageDialog(BancoGUI.this, "Não foi possível encontrar uma conta com esse CPF");
+                }
+            }
+        });
+
+        pesquisarContaPanel.add(cpfPesquisaLabel);
+        pesquisarContaPanel.add(cpfPesquisaField);
+        pesquisarContaPanel.add(new JLabel());
+        pesquisarContaPanel.add(pesquisarContaButton);
+        pesquisarContaPanel.add(novoNomeLabel);
+        pesquisarContaPanel.add(novoNomeField);
+        pesquisarContaPanel.add(new JLabel());
+        pesquisarContaPanel.add(atualizarNomeButton);
+
+        return pesquisarContaPanel;
     }
 
     public static void main(String[] args) {
         ArrayList<Conta> contas = new ArrayList<>();
         BancoServices bancoServices = new BancoServices(contas);
         BancoGUI bancoGUI = new BancoGUI(bancoServices);
+        bancoGUI.setVisible(true);
     }
 }
