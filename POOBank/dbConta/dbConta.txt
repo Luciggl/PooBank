@@ -1,2 +1,0 @@
-lucielio 12345678 87654321 lucielio@gmail.com 123 123 500.0 
-pedro 123 321 lucas@gmail.com  123 13 -199.0
